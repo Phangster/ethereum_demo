@@ -1,3 +1,5 @@
+var Conference = artifacts.require("./Conference.sol");
+
 contract('Conference', function(accounts) {
 	console.log(accounts);
 	var owner_account = accounts[0];
@@ -53,9 +55,9 @@ contract('Conference', function(accounts) {
   	Conference.new({ from: accounts[0] }).then(
   		function(conference) {
 
-        var ticketPrice = web3.toWei(.05, 'ether');
-        var initialBalance = web3.eth.getBalance(conference.address).toNumber();  
-
+				var ticketPrice = web3.utils.toWei('.05', 'ether');
+				var initialBalance = web3.eth.getBalance(conference.address).toNumber();
+			
   			conference.buyTicket({ from: accounts[1], value: ticketPrice }).then(
           function() {
   					var newBalance = web3.eth.getBalance(conference.address).toNumber();
@@ -83,12 +85,12 @@ contract('Conference', function(accounts) {
     Conference.new({ from: accounts[0] }).then(
       function(conference) {
 
-        var ticketPrice = web3.toWei(.05, 'ether');
+        var ticketPrice = web3.utils.toWei('.05', 'ether');
         var initialBalance = web3.eth.getBalance(conference.address).toNumber(); 
 
         conference.buyTicket({ from: accounts[1], value: ticketPrice }).then(
           function() {
-            var newBalance = web3.eth.getBalance(conference.address).toNumber();
+						var newBalance = web3.eth.getBalance(conference.address).toNumber();
             var difference = newBalance - initialBalance;
             assert.equal(difference, ticketPrice, "Difference should be what was sent");
 

@@ -1,3 +1,5 @@
+pragma solidity ^0.5.8;
+
 contract Conference {
 
  	address public organizer;
@@ -5,27 +7,21 @@ contract Conference {
  	uint public numRegistrants;
  	uint public quota;
 
-  event Deposit(address _from, uint _amount);
+  	event Deposit(address _from, uint _amount);
  	event Refund(address _to, uint _amount);
 
-
-
- 	function Conference() {
+ 	 constructor() public {
 
  		organizer = msg.sender;
  		quota = 100;
  		numRegistrants = 0;
  	}
 
-
- 	function buyTicket() public {
- 		if(numRegistrants >= quota) {
- 			throw;
- 		}
-
+ 	function buyTicket() public payable{
+ 		require(numRegistrants >= quota, "Number of registrants is lower than quota");
  		registrantsPaid[msg.sender] = msg.value;
  		numRegistrants++;
- 		Deposit(msg.sender, msg.value);
+ 		emit Deposit(msg.sender, msg.value);
  	}
 
 }
